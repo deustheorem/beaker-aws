@@ -276,6 +276,8 @@ module Beaker
       host['sg_cidr_ips'] = host['sg_cidr_ips'] || '0.0.0.0/0';
       sg_cidr_ips = host['sg_cidr_ips'].split(',')
       assoc_pub_ip_addr = host['associate_public_ip_address']
+      sg_id = host['sg_id'].split(',')
+      ping_sg_id = host['ping_sg_id'].split(',')
 
       if vpc_id && !subnet_id
         raise RuntimeError, "A subnet_id must be provided with a vpc_id"
@@ -339,9 +341,14 @@ module Beaker
         end
       end
 
-      security_group = ensure_group(vpc || region, Beaker::EC2Helper.amiports(host), sg_cidr_ips)
-      #check if ping is enabled
-      ping_security_group = ensure_ping_group(vpc || region, sg_cidr_ips)
+      if sg_id
+        security_group = sg_id
+        ping_security_group = ping_sg_id
+      else
+        security_group = ensure_group(vpc || region, Beaker::EC2Helper.amiports(host), sg_cidr_ips)
+        #check if ping is enabled
+        ping_security_group = ensure_ping_group(vpc || region, sg_cidr_ips)
+      end
 
       msg = "aws-sdk: launching %p on %p using %p/%p%s" %
             [host.name, amitype, amisize, image_type,
