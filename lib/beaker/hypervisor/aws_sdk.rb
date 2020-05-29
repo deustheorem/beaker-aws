@@ -341,6 +341,7 @@ module Beaker
         end
       end
 
+      # REMOVE DEBUG
       @logger.notify(ddddddddddddddddd: "#{sg_id}")
       if !sg_id.to_s.strip.empty?
         @logger.notify("aws-sdk: Set security group for instance")
@@ -623,8 +624,14 @@ module Beaker
         # Define tags for the instance
         @logger.notify("aws-sdk: Update network_interface for #{host.name}")
 
-        security_group = ensure_group(instance[:network_interfaces].first, Beaker::EC2Helper.amiports(host), sg_cidr_ips)
-        ping_security_group = ensure_ping_group(instance[:network_interfaces].first, sg_cidr_ips)
+        if !sg_id.to_s.strip.empty?
+          @logger.notify("aws-sdk: Set security group for instance: #{sg_id}")
+          security_group = sg_id
+          ping_security_group = ping_sg_id
+        else
+          security_group = ensure_group(instance[:network_interfaces].first, Beaker::EC2Helper.amiports(host), sg_cidr_ips)
+          ping_security_group = ensure_ping_group(instance[:network_interfaces].first, sg_cidr_ips)
+        end
 
         client.modify_network_interface_attribute(
           :network_interface_id => "#{instance[:network_interfaces].first[:network_interface_id]}",
