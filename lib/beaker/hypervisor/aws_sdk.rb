@@ -276,8 +276,8 @@ module Beaker
       host['sg_cidr_ips'] = host['sg_cidr_ips'] || '0.0.0.0/0';
       sg_cidr_ips = host['sg_cidr_ips'].split(',')
       assoc_pub_ip_addr = host['associate_public_ip_address']
-      sg_id = host['sg_id'].split(',') || false
-      ping_sg_id = host['ping_sg_id'].split(',') || false
+      sg_id = host['sg_id'].split(',') || @options['sg_id'].split(',') || false
+      ping_sg_id = host['ping_sg_id'].split(',') || @options['ping_sg_id'].split(',') || false
 
       if vpc_id && !subnet_id
         raise RuntimeError, "A subnet_id must be provided with a vpc_id"
