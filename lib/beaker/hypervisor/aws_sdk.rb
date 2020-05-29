@@ -342,7 +342,7 @@ module Beaker
       end
 
       @logger.notify(ddddddddddddddddd: "#{sg_id}")
-      unless sg_id
+      if sg_id.to_s.strip.empty?
         @logger.notify("aws-sdk: Set security group for instance")
         security_group = sg_id
         ping_security_group = ping_sg_id
