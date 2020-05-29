@@ -341,6 +341,7 @@ module Beaker
         end
       end
 
+      @logger.notify(ddddddddddddddddd: "#{sg_id}")
       unless sg_id
         @logger.notify("aws-sdk: Set security group for instance")
         security_group = sg_id
