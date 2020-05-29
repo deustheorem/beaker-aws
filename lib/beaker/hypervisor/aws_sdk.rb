@@ -344,7 +344,7 @@ module Beaker
       # REMOVE DEBUG
       @logger.notify(ddddddddddddddddd: "#{sg_id}")
       if !sg_id.to_s.strip.empty?
-        @logger.notify("aws-sdk: Set security group for instance")
+        @logger.notify("aws-sdk: Set security group for instance: #{sg_id}")
         security_group = sg_id
         ping_security_group = ping_sg_id
       else
@@ -352,6 +352,9 @@ module Beaker
         #check if ping is enabled
         ping_security_group = ensure_ping_group(vpc || region, sg_cidr_ips)
       end
+
+      # REMOVE DEBUG
+      @logger.notify("#{security_group}")
 
       msg = "aws-sdk: launching %p on %p using %p/%p%s" %
             [host.name, amitype, amisize, image_type,
