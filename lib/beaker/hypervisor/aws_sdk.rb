@@ -627,7 +627,7 @@ module Beaker
         # Define tags for the instance
         @logger.notify("aws-sdk: Update network_interface for #{host.name}")
 
-        if !sg_id.to_s.strip.empty?
+        if !sg_id.empty?
           @logger.notify("aws-sdk: Set security group for instance: #{sg_id}")
           security_group = sg_id
           ping_security_group = ping_sg_id
