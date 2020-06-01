@@ -76,6 +76,9 @@ module Beaker
       # step they never get assigned, although they get created
       modify_network_interface()
 
+      ## REMOVE DEBUG
+      sleep 10
+
       wait_for_status_netdev()
 
       # Grab the ip addresses and dns from EC2 for each instance to use for ssh
