@@ -343,7 +343,7 @@ module Beaker
 
       # REMOVE DEBUG
       @logger.notify(ddddddddddddddddd: "#{sg_id}")
-      if !sg_id.empty?
+      if !sg_id
         @logger.notify("aws-sdk: Set security group for instance: #{sg_id}")
         security_group = sg_id
         ping_security_group = ping_sg_id
