@@ -279,7 +279,7 @@ module Beaker
       host['sg_cidr_ips'] = host['sg_cidr_ips'] || '0.0.0.0/0';
       sg_cidr_ips = host['sg_cidr_ips'].split(',')
       assoc_pub_ip_addr = host['associate_public_ip_address']
-      sg_id = host['sg_id'] || @options['sg_id'] || false
+      sg_id[:group_id] = host['sg_id'] || @options['sg_id'] || false
       ping_sg_id = host['ping_sg_id'] || @options['ping_sg_id'] || false
 
       if vpc_id && !subnet_id
@@ -346,7 +346,7 @@ module Beaker
 
       # REMOVE DEBUG
       @logger.notify(ddddddddddddddddd: "#{sg_id}")
-      if !sg_id
+      if sg_id
         @logger.notify("aws-sdk: Set security group for instance: #{sg_id}")
         security_group = sg_id
         ping_security_group = ping_sg_id
