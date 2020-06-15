@@ -279,8 +279,8 @@ module Beaker
       host['sg_cidr_ips'] = host['sg_cidr_ips'] || '0.0.0.0/0';
       sg_cidr_ips = host['sg_cidr_ips'].split(',')
       assoc_pub_ip_addr = host['associate_public_ip_address']
-      sg_id[:group_id] = host['sg_id'] || @options['sg_id'] || false
-      ping_sg_id = host['ping_sg_id'] || @options['ping_sg_id'] || false
+      sg_id = host['sg_id'] || false
+      ping_sg_id = host['ping_sg_id'] || false
 
       if vpc_id && !subnet_id
         raise RuntimeError, "A subnet_id must be provided with a vpc_id"
@@ -348,8 +348,8 @@ module Beaker
       @logger.notify(ddddddddddddddddd: "#{sg_id}")
       if sg_id
         @logger.notify("aws-sdk: Set security group for instance: #{sg_id}")
-        security_group = sg_id
-        ping_security_group = ping_sg_id
+        security_group.group_id = sg_id
+        ping_security_group.group_id = ping_sg_id
       else
         security_group = ensure_group(vpc || region, Beaker::EC2Helper.amiports(host), sg_cidr_ips)
         #check if ping is enabled
@@ -632,8 +632,8 @@ module Beaker
 
         if !sg_id.empty?
           @logger.notify("aws-sdk: Set security group for instance: #{sg_id}")
-          security_group = sg_id
-          ping_security_group = ping_sg_id
+          security_group.group_id = sg_id
+          ping_security_group.group_id = ping_sg_id
         else
           security_group = ensure_group(instance[:network_interfaces].first, Beaker::EC2Helper.amiports(host), sg_cidr_ips)
           ping_security_group = ensure_ping_group(instance[:network_interfaces].first, sg_cidr_ips)
