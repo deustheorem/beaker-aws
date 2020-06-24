@@ -518,6 +518,8 @@ module Beaker
         for tries in 1..10
           refreshed_instance = instance_by_id(instance.instance_id)
 
+          @logger.notify("refreshed_instance: #{refreshed_instance}")
+
           if refreshed_instance.nil?
             @logger.debug("Instance #{name} not yet available (#{e})")
           else
