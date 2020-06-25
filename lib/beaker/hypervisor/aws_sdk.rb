@@ -510,7 +510,7 @@ module Beaker
         instance = x[:instance]
         @logger.notify("aws-sdk: Wait for node #{name} to be #{state_name}")
         # Sleep for first run
-        sleep 120
+        sleep 60
         # Here we keep waiting for the machine state to reach 'running' with an
         # exponential backoff for each poll.
         # TODO: should probably be a in a shared method somewhere
