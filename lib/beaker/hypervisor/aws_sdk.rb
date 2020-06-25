@@ -81,7 +81,7 @@ module Beaker
       # Grab the ip addresses and dns from EC2 for each instance to use for ssh
       populate_dns()
 
-      #enable root if user is not root
+      # enable root if user is not root
       enable_root_on_hosts()
 
       # Set the hostname for each box
@@ -510,7 +510,7 @@ module Beaker
         instance = x[:instance]
         @logger.notify("aws-sdk: Wait for node #{name} to be #{state_name}")
         # Sleep for first run
-        sleep 300
+        sleep 120
         # Here we keep waiting for the machine state to reach 'running' with an
         # exponential backoff for each poll.
         # TODO: should probably be a in a shared method somewhere
