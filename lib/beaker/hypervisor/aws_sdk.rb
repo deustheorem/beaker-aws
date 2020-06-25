@@ -76,9 +76,6 @@ module Beaker
       # step they never get assigned, although they get created
       modify_network_interface()
 
-      ## REMOVE DEBUG
-      sleep 10
-
       wait_for_status_netdev()
 
       # Grab the ip addresses and dns from EC2 for each instance to use for ssh
@@ -512,6 +509,8 @@ module Beaker
         name = x[:host] ? x[:host].name : x[:name]
         instance = x[:instance]
         @logger.notify("aws-sdk: Wait for node #{name} to be #{state_name}")
+        # Sleep for first run
+        backoff_sleep(10)
         # Here we keep waiting for the machine state to reach 'running' with an
         # exponential backoff for each poll.
         # TODO: should probably be a in a shared method somewhere
