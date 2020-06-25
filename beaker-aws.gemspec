@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
 
   # Run time dependencies
   s.add_runtime_dependency 'stringify-hash', '~> 0.0.0'
-  s.add_runtime_dependency 'aws-sdk-ec2', '~> 1.35'
+  s.add_runtime_dependency 'aws-sdk-ec2', '~> 1.170'
   s.add_runtime_dependency 'aws-partitions', '~> 1.91'
 end
 
