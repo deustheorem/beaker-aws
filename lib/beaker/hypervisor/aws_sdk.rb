@@ -384,8 +384,7 @@ module Beaker
 
       if iam_role
         config[:iam_instance_profile] = {
-          :arn => iam_role,
-          :name => iam_role_name
+          :arn => iam_role
         }
       end
 
