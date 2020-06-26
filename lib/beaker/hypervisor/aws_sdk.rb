@@ -374,8 +374,7 @@ module Beaker
       host[:host_tags].each do |name, val|
         tags << { :key => name.to_s, :value => val }
       end
-      config = {
-        :tag_specifications => [
+      config[:tag_specifications] = [
           {
             :tags => tags
           }
@@ -385,9 +384,7 @@ module Beaker
       if key_pair_disable
         @logger.notify("Disable aws key pair")
       else
-        config = {
-          :key_name => ensure_key_pair(region).key_pairs.first.key_name,
-        }
+        config[:key_name] = ensure_key_pair(region).key_pairs.first.key_name
       end
       if assoc_pub_ip_addr
         # this never gets created, so they end up with
