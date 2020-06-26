@@ -157,7 +157,11 @@ module Beaker
     # @return [Aws::EC2::Types::Instance] An Aws::EC2 instance object
     def instance_by_id(id)
       #client.describe_instances(:instance_ids => [id]).reservations.first.instances.first
-      client.describe_instances(:instance_ids => [id])
+      client.describe_instances({
+        instance_ids: [
+          id,
+        ],
+      })
     end
 
     # Return all instances currently on ec2.
