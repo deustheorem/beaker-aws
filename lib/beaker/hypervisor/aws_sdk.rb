@@ -156,7 +156,8 @@ module Beaker
     # @param [String] id The id of the instance to return
     # @return [Aws::EC2::Types::Instance] An Aws::EC2 instance object
     def instance_by_id(id)
-      client.describe_instances(:instance_ids => [id]).reservations.first.instances.first
+      #client.describe_instances(:instance_ids => [id]).reservations.first.instances.first
+      client.describe_instances(:instance_ids => [id])
     end
 
     # Return all instances currently on ec2.
@@ -273,7 +274,6 @@ module Beaker
       sg_id = host['sg_id'] || false
       ping_sg_id = host['ping_sg_id'] || false
       iam_role = host['iam_role'] || false
-      iam_role_name = host['iam_role_name'] || false
       key_pair_disable = host['key_pair_disable'] || false
 
       if vpc_id && !subnet_id
@@ -538,8 +538,6 @@ module Beaker
         name = x[:host] ? x[:host].name : x[:name]
         instance = x[:instance]
         @logger.notify("aws-sdk: Wait for node #{name} to be #{state_name}")
-        # Sleep for first run
-        sleep 60
         # Here we keep waiting for the machine state to reach 'running' with an
         # exponential backoff for each poll.
         # TODO: should probably be a in a shared method somewhere
