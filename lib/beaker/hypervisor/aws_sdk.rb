@@ -367,7 +367,7 @@ module Beaker
       tags = [
         {
           :key   => 'Name',
-          :value => @hosts.name.first,
+          :value => host.name,
         },
       ]
 
