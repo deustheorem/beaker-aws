@@ -339,8 +339,8 @@ module Beaker
 
       if sg_id
         @logger.notify("aws-sdk: Set security group for instance: #{sg_id}")
-        security_group = { 'group_id' => sg_id }
-        ping_security_group = { 'group_id' => ping_sg_id }
+        security_group = { :group_id => sg_id }
+        ping_security_group = { :group_id => ping_sg_id }
       else
         security_group = ensure_group(vpc || region, Beaker::EC2Helper.amiports(host), sg_cidr_ips)
         #check if ping is enabled
