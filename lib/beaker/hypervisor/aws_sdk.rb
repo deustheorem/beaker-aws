@@ -375,11 +375,10 @@ module Beaker
         tags << { :key => name.to_s, :value => val }
       end
       config[:tag_specifications] = [
-          {
-            :tags => tags
-          }
-        ]
-      }
+        {
+          :tags => tags
+        }
+      ]
 
       if key_pair_disable
         @logger.notify("Disable aws key pair")
