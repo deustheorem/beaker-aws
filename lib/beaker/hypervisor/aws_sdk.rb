@@ -374,7 +374,7 @@ module Beaker
       host[:host_tags].each do |name, val|
         tags << { :key => name.to_s, :value => val }
       end
-      config << {
+      config = {
         :tag_specifications => [
           {
             :tags => tags
@@ -385,7 +385,7 @@ module Beaker
       if key_pair_disable
         @logger.notify("Disable aws key pair")
       else
-        config << {
+        config = {
           :key_name => ensure_key_pair(region).key_pairs.first.key_name,
         }
       end
