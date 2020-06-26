@@ -361,16 +361,31 @@ module Beaker
         :instance_type => amisize,
         :disable_api_termination => false,
         :instance_initiated_shutdown_behavior => "terminate",
+      }
+
+      # Add tags during initial instance creation
+      tags = [
+        {
+          :key   => 'Name',
+          :value => @hosts.name.first,
+        },
+      ]
+
+      host[:host_tags].each do |name, val|
+        tags << { :key => name.to_s, :value => val }
+      end
+      config << {
         :tag_specifications => [
           {
-            :tags => add_tags()
+            :tags => tags
           }
         ]
       }
+
       if key_pair_disable
         @logger.notify("Disable aws key pair")
       else
-        config = {
+        config << {
           :key_name => ensure_key_pair(region).key_pairs.first.key_name,
         }
       end
@@ -569,28 +584,6 @@ module Beaker
           break
         end
       end
-    end
-
-    # Add metadata tags to all instances
-    #
-    # @return [Array]
-    # @api private
-    def add_tags
-
-      # Define tags for the instance
-      @logger.notify("aws-sdk: Add tags for #{host.name}")
-
-      tags = [
-        {
-          :key   => 'Name',
-          :value => @hosts.name.first,
-        },
-      ]
-
-      host[:host_tags].each do |name, val|
-        tags << { :key => name.to_s, :value => val }
-      end
-
     end
 
     # Add correct security groups to hosts network_interface
