@@ -363,7 +363,7 @@ module Beaker
         :instance_initiated_shutdown_behavior => "terminate",
         :tag_specifications => [
           {
-            tags => add_tags()
+            :tags => add_tags()
           }
         ]
       }
