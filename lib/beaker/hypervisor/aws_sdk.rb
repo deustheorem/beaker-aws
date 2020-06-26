@@ -279,6 +279,7 @@ module Beaker
       sg_id = host['sg_id'] || false
       ping_sg_id = host['ping_sg_id'] || false
       #iam_role = host['iam_role'] || false
+      key_pair_disable = host['key_pair_disable'] || false
 
       if vpc_id && !subnet_id
         raise RuntimeError, "A subnet_id must be provided with a vpc_id"
@@ -363,11 +364,17 @@ module Beaker
         :monitoring => {
           :enabled => true,
         },
-        :key_name => ensure_key_pair(region).key_pairs.first.key_name,
         :instance_type => amisize,
         :disable_api_termination => false,
         :instance_initiated_shutdown_behavior => "terminate",
       }
+      if key_pair_disable
+        @logger.notify("Disable aws key pair")
+      else
+        config = {
+          :key_name => ensure_key_pair(region).key_pairs.first.key_name,
+        }
+      end
       if assoc_pub_ip_addr
         # this never gets created, so they end up with
         # default security group which only allows for
