@@ -272,7 +272,8 @@ module Beaker
       assoc_pub_ip_addr = host['associate_public_ip_address']
       sg_id = host['sg_id'] || false
       ping_sg_id = host['ping_sg_id'] || false
-      #iam_role = host['iam_role'] || false
+      iam_role = host['iam_role'] || false
+      iam_role_name = host['iam_role_name'] || false
       key_pair_disable = host['key_pair_disable'] || false
 
       if vpc_id && !subnet_id
@@ -380,6 +381,13 @@ module Beaker
           :tags => tags
         }
       ]
+
+      if iam_role
+        config[:iam_instance_profile] = {
+          :arn => iam_role,
+          :name => iam_role_name
+        }
+      end
 
       if key_pair_disable
         @logger.notify("aws-sdk: Disable aws key pair")
