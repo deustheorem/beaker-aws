@@ -68,7 +68,7 @@ module Beaker
       # adding the correct security groups to the
       # network interface, as during the `launch_all_nodes()`
       # step they never get assigned, although they get created
-      modify_network_interface()
+      # DEBUG: modify_network_interface()
 
       wait_for_status_netdev()
 
@@ -398,7 +398,11 @@ module Beaker
           :associate_public_ip_address => assoc_pub_ip_addr,
         }]
       else
-        config[:subnet_id] = subnet_id
+        config[:network_interfaces] = [{
+          :subnet_id => subnet_id,
+          :groups => [security_group.group_id, ping_security_group.group_id],
+          :device_index => 0,
+        }]
       end
       config[:block_device_mappings] = block_device_mappings if image.root_device_type == :ebs
       reservation = client(region).run_instances(config)
