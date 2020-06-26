@@ -382,7 +382,7 @@ module Beaker
       ]
 
       if key_pair_disable
-        @logger.notify("Disable aws key pair")
+        @logger.notify("aws-sdk: Disable aws key pair")
       else
         config[:key_name] = ensure_key_pair(region).key_pairs.first.key_name
       end
@@ -400,7 +400,7 @@ module Beaker
       else
         config[:network_interfaces] = [{
           :subnet_id => subnet_id,
-          :groups => [security_group[group_id], ping_security_group[group_id]],
+          :groups => [security_group[:group_id], ping_security_group[:group_id]],
           :device_index => 0,
         }]
       end
