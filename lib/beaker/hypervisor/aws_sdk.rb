@@ -393,14 +393,14 @@ module Beaker
         # doesn't work well with remote devices etc.
         config[:network_interfaces] = [{
           :subnet_id => subnet_id,
-          :groups => [security_group.group_id, ping_security_group.group_id],
+          :groups => [security_group[:group_id], ping_security_group[:group_id]],
           :device_index => 0,
           :associate_public_ip_address => assoc_pub_ip_addr,
         }]
       else
         config[:network_interfaces] = [{
           :subnet_id => subnet_id,
-          :groups => [security_group.group_id, ping_security_group.group_id],
+          :groups => [security_group[group_id], ping_security_group[group_id]],
           :device_index => 0,
         }]
       end
