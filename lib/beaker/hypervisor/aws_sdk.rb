@@ -376,6 +376,7 @@ module Beaker
       end
       config[:tag_specifications] = [
         {
+          :resource_type => "instance",
           :tags => tags
         }
       ]
