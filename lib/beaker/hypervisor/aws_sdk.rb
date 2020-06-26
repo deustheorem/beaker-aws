@@ -65,12 +65,6 @@ module Beaker
       # Perform the main launch work
       launch_all_nodes()
 
-      # Add metadata tags to each instance
-      # tagging early as some nodes take longer
-      # to initialize and terminate before it has
-      # a chance to provision
-      add_tags()
-
       # adding the correct security groups to the
       # network interface, as during the `launch_all_nodes()`
       # step they never get assigned, although they get created
@@ -367,6 +361,11 @@ module Beaker
         :instance_type => amisize,
         :disable_api_termination => false,
         :instance_initiated_shutdown_behavior => "terminate",
+        :tag_specifications => [
+          {
+            tags => add_tags()
+          }
+        ]
       }
       if key_pair_disable
         @logger.notify("Disable aws key pair")
@@ -574,49 +573,24 @@ module Beaker
 
     # Add metadata tags to all instances
     #
-    # @return [void]
+    # @return [Array]
     # @api private
     def add_tags
-      @hosts.each do |host|
-        instance = host['instance']
 
-        # Define tags for the instance
-        @logger.notify("aws-sdk: Add tags for #{host.name}")
+      # Define tags for the instance
+      @logger.notify("aws-sdk: Add tags for #{host.name}")
 
-        tags = [
-          {
-            :key   => 'jenkins_build_url',
-            :value => @options[:jenkins_build_url],
-          },
-          {
-            :key   => 'Name',
-            :value => host.name,
-          },
-          {
-            :key   => 'department',
-            :value => @options[:department],
-          },
-          {
-            :key   => 'project',
-            :value => @options[:project],
-          },
-          {
-            :key   => 'created_by',
-            :value => @options[:created_by],
-          },
-        ]
+      tags = [
+        {
+          :key   => 'Name',
+          :value => host.name,
+        },
+      ]
 
-        host[:host_tags].each do |name, val|
-          tags << { :key => name.to_s, :value => val }
-        end
-
-        client.create_tags(
-          :resources => [instance.instance_id],
-          :tags      => tags.reject { |r| r[:value].nil? },
-        )
+      host[:host_tags].each do |name, val|
+        tags << { :key => name.to_s, :value => val }
       end
 
-      nil
     end
 
     # Add correct security groups to hosts network_interface
