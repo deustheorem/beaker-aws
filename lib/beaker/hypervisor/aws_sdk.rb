@@ -161,7 +161,7 @@ module Beaker
         instance_ids: [
           id,
         ],
-      })
+      }).reservations.first.instances.first
     end
 
     # Return all instances currently on ec2.
