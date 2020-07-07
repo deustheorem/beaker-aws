@@ -562,7 +562,7 @@ module Beaker
             if block_given?
               test_result = yield refreshed_instance
             else
-              test_result = refreshed_instance.state.name == state_name
+              test_result = refreshed_instance.state.name.to_s == state_name.to_s
               @logger.notify("refreshed_instance: #{refreshed_instance.state.name} = #{state_name}")
             end
             @logger.notify("refreshed_instance - test_result #{test_result}")
