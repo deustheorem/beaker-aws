@@ -547,7 +547,11 @@ module Beaker
         # exponential backoff for each poll.
         # TODO: should probably be a in a shared method somewhere
         for tries in 1..10
-          refreshed_instance = instance_by_id(instance.instance_id)
+          refreshed_instance = client.describe_instances({
+            instance_ids: [
+              instance.instance_id,
+            ],
+          }).reservations.first.instances.first
 
           @logger.notify("refreshed_instance: #{refreshed_instance}")
 
