@@ -40,7 +40,7 @@ module Beaker
         :log_level     => :debug,
         :log_formatter => Aws::Log::Formatter.colored,
         :retry_limit   => 12,
-        :region        => ENV['AWS_REGION'] || 'us-west-2'
+        :region        => ENV['AWS_REGION'] || 'us-east-1'
       }.delete_if{ |k,v| v.nil? }
       Aws.config.update(config)
 
@@ -556,7 +556,7 @@ module Beaker
             if block_given?
               test_result = yield refreshed_instance
             else
-              test_result = refreshed_instance.state.name.to_s == state_name.to_s
+              test_result = refreshed_instance.monitoring.state.name.to_s == state_name.to_s
             end
             if test_result
               x[:instance] = refreshed_instance
