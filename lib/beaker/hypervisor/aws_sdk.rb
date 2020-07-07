@@ -539,6 +539,7 @@ module Beaker
     def wait_for_status(state_name, instances, &block)
       # Wait for each node to reach status :running
       @logger.notify("aws-sdk: Waiting for all hosts to be #{state_name}")
+      sleep 15
       instances.each do |x|
         name = x[:host] ? x[:host].name : x[:name]
         instance = x[:instance]
