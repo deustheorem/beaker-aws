@@ -29,7 +29,7 @@ module Beaker
       @hosts = hosts
       @options = options
       @logger = options[:logger]
-      @default_region = ENV['AWS_REGION'] || 'us-west-2'
+      @default_region = ENV['AWS_REGION'] || 'us-east-1'
 
       # Get AWS credentials
       creds = options[:use_fog_credentials] ? load_credentials() : nil
