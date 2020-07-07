@@ -563,6 +563,7 @@ module Beaker
             else
               test_result = refreshed_instance.state.name == state_name
             end
+            @logger.notify("refreshed_instance - test_result #{test_result}")
             if test_result
               x[:instance] = refreshed_instance
               # Always sleep, so the next command won't cause a throttle
