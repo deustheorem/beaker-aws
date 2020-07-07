@@ -556,7 +556,7 @@ module Beaker
             if block_given?
               test_result = yield refreshed_instance
             else
-              test_result = refreshed_instance.monitoring.state.name.to_s == state_name.to_s
+              test_result = refreshed_instance.state.name == state_name
             end
             if test_result
               x[:instance] = refreshed_instance
