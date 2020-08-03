@@ -99,9 +99,13 @@ module Beaker
     # @return [void]
     def kill_instances(instances)
       running_instances = instances.compact.select do |instance|
-        instance_by_id(instance.instance_id).state.name == 'running'
+        instancequery = client.describe_instances({
+          instance_ids: [
+            instance.instance_id,
+          ],
+        }).reservations.first.instances.first
+        instancequery.state.name == 'running'
       end
-      instance_ids = running_instances.map(&:instance_id)
 
       return nil if instance_ids.empty?
 
