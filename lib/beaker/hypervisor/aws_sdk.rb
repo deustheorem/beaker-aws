@@ -804,6 +804,7 @@ module Beaker
       else
         @hosts.each do |host|
           host[:vmhostname] = host[:dns_name]
+          @logger.notify("Setting vmhostname to #{host[:dns_name]}")
           if host['platform'] =~ /el-7/
             # on el-7 hosts, the hostname command doesn't "stick" randomly
             host.exec(Command.new("hostnamectl set-hostname #{host.hostname}"))
