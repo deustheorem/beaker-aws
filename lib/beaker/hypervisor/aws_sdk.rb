@@ -654,6 +654,7 @@ module Beaker
         host['ip'] = instance.public_ip_address || instance.private_ip_address
         host['private_ip'] = instance.private_ip_address
         host['dns_name'] = instance.private_dns_name || instance.public_dns_name 
+        host['vmhostname'] = host['dns_name']
         @logger.notify("aws-sdk: name: #{host.name} ip: #{host['ip']} private_ip: #{host['private_ip']} dns_name: #{host['dns_name']}")
       end
 
@@ -780,6 +781,7 @@ module Beaker
     # @return [@hosts]
     # @api private
     def set_hostnames
+      @logger.notify("Set Hostname: #{@options['use_beaker_hostnames']}")
       if @options['use_beaker_hostnames']
         @hosts.each do |host|
           host[:vmhostname] = host.name
